@@ -22,11 +22,11 @@ export const StudentAddPage = () => {
   };
 
   return (
-    <div className="p-6 flex items-center justify-center min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 p-6 flex items-center justify-center">
       <StudentForm
         onSubmit={handleSubmit}
         isLoading={isAdding}
-        title="Add Student"
+        title="Add New Student"
         isEditMode={false}
       />
     </div>

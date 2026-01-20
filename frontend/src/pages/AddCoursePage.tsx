@@ -83,62 +83,81 @@ export const AddCoursePage = () => {
   };
 
   return (
-    <div className="p-6 max-w-2xl mx-auto">
-      <div className="flex items-center gap-4 mb-6">
-        <Button variant="ghost" onClick={() => navigate("/courses")}>
-          <ArrowLeft className="w-4 h-4 mr-2" />
-          Back
-        </Button>
-        <h1 className="text-3xl font-bold flex items-center gap-2">
-          <BookOpen className="w-8 h-8" />
-          Add New Course
-        </h1>
-      </div>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 p-6">
+      <div className="max-w-2xl mx-auto space-y-8">
+        {/* Header */}
+        <div className="flex items-center gap-4">
+          <Button 
+            variant="ghost" 
+            onClick={() => navigate("/courses")}
+            className="h-10 rounded-xl hover:bg-white/50 backdrop-blur-sm transition-all"
+          >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Back to Courses
+          </Button>
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 shadow-lg flex items-center justify-center">
+              <BookOpen className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h1 className="text-3xl font-bold bg-gradient-to-r from-slate-800 to-blue-600 bg-clip-text text-transparent">
+                Add New Course
+              </h1>
+              <p className="text-slate-500">Create a new course for student enrollment</p>
+            </div>
+          </div>
+        </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>Course Details</CardTitle>
-        </CardHeader>
-        <CardContent>
+        <Card className="backdrop-blur-sm bg-white/70 border-0 shadow-xl">
+          <CardHeader className="pb-6">
+            <CardTitle className="text-xl text-slate-800 flex items-center gap-2">
+              <span className="text-blue-500">📚</span>
+              Course Information
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
             {(error || addError) && (
-              <div className="bg-red-50 border border-red-200 rounded-lg p-4">
-                <p className="text-red-600">{error || addError?.message}</p>
+              <div className="bg-red-50/80 backdrop-blur-sm border border-red-200 text-red-700 p-4 rounded-xl text-sm font-medium flex items-center gap-2">
+                <span className="text-lg">⚠️</span>
+                {error || addError?.message}
               </div>
             )}
 
-            <div>
-              <Label htmlFor="name">Course Name *</Label>
+            <div className="space-y-2">
+              <Label htmlFor="name" className="text-sm font-medium text-slate-700">Course Name *</Label>
               <Input
                 id="name"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder="e.g., Computer Science, Electrical Engineering"
-                className="mt-1"
+                className="h-12 border-slate-200/50 bg-white/50 backdrop-blur-sm focus:bg-white/80 transition-all duration-200 rounded-xl"
               />
             </div>
 
             <div>
-              <div className="flex justify-between items-center mb-2">
-                <Label>Subjects *</Label>
+              <div className="flex justify-between items-center mb-4">
+                <Label className="text-sm font-medium text-slate-700">Course Subjects *</Label>
                 <Button
                   type="button"
                   variant="outline"
                   size="sm"
                   onClick={addSubjectField}
+                  className="h-9 rounded-xl hover:bg-blue-50 hover:border-blue-200 hover:text-blue-700 transition-all"
                 >
                   <Plus className="w-4 h-4 mr-1" />
                   Add Subject
                 </Button>
               </div>
               
-              <div className="space-y-2">
+              <div className="space-y-3">
                 {subjects.map((subject, index) => (
-                  <div key={index} className="flex gap-2">
+                  <div key={index} className="flex gap-3 items-center">
                     <Input
                       value={subject}
                       onChange={(e) => updateSubject(index, e.target.value)}
                       placeholder={`Subject ${index + 1} (e.g., Mathematics, Physics)`}
+                      className="h-11 border-slate-200/50 bg-white/50 backdrop-blur-sm focus:bg-white/80 transition-all duration-200 rounded-xl"
                     />
                     {subjects.length > 1 && (
                       <Button
@@ -146,7 +165,7 @@ export const AddCoursePage = () => {
                         variant="ghost"
                         size="sm"
                         onClick={() => removeSubjectField(index)}
-                        className="text-red-600 hover:text-red-800"
+                        className="h-11 w-11 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-xl transition-all"
                       >
                         <X className="w-4 h-4" />
                       </Button>
@@ -154,31 +173,33 @@ export const AddCoursePage = () => {
                   </div>
                 ))}
               </div>
-              <p className="text-sm text-gray-500 mt-2">
+              <p className="text-sm text-slate-500 mt-3 flex items-center gap-2">
+                <span>💡</span>
                 Add all subjects that are part of this course curriculum.
               </p>
             </div>
 
-            <div className="flex gap-4 pt-4">
+            <div className="flex gap-4 pt-6 border-t border-slate-100">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => navigate("/courses")}
-                className="flex-1"
+                className="flex-1 h-12 rounded-xl hover:bg-slate-50 transition-all"
               >
                 Cancel
               </Button>
               <Button
                 type="submit"
                 disabled={isAdding}
-                className="flex-1"
+                className="flex-1 h-12 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-medium rounded-xl shadow-lg hover:shadow-xl transition-all duration-200"
               >
                 {isAdding ? "Creating..." : "Create Course"}
               </Button>
             </div>
           </form>
         </CardContent>
-      </Card>
+        </Card>
+      </div>
     </div>
   );
 };

@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { Marks } from "../models/Marks.js";
 import { Student } from "../models/Student.js";
 
-// Helper function to calculate overall marks and grade for a student
 const calculateStudentOverallMarks = async (studentId: string) => {
   try {
     const marks = await Marks.find({ studentId });
@@ -10,12 +9,10 @@ const calculateStudentOverallMarks = async (studentId: string) => {
     if (marks.length === 0) {
       return { averageMarks: 0, overallGrade: "N/A" };
     }
-    
-    // Calculate average percentage
+
     const totalPercentage = marks.reduce((sum, mark) => sum + mark.percentage, 0);
     const averagePercentage = totalPercentage / marks.length;
-    
-    // Calculate overall grade based on average percentage
+
     let overallGrade = "F";
     if (averagePercentage >= 90) overallGrade = "A+";
     else if (averagePercentage >= 85) overallGrade = "A";
@@ -26,8 +23,7 @@ const calculateStudentOverallMarks = async (studentId: string) => {
     else if (averagePercentage >= 60) overallGrade = "C+";
     else if (averagePercentage >= 55) overallGrade = "C";
     else if (averagePercentage >= 50) overallGrade = "C-";
-    else if (averagePercentage >= 40) overallGrade = "D";
-    
+    else if (averagePercentage >= 40) overallGrade = "D";    
     return { averageMarks: Math.round(averagePercentage), overallGrade };
   } catch (error) {
     console.error("Error calculating student overall marks:", error);
@@ -40,16 +36,13 @@ export const getAllMarks = async (req: Request, res: Response) => {
     const user: any = (req as any).user;
     let query = {};
 
-    // If student, restrict to their own marks
     if (user.role === 'student') {
-      // Find the studentId for this user (user.id from JWT token)
       const student = await Student.findOne({ userId: user.id });
       if (!student) {
         return res.status(404).json({ message: 'Student not found' });
       }
       query = { studentId: student._id };
     } else if (user.role === "faculty") {
-      // Find all students assigned to this faculty
       const assignedStudents = await Student.find({ facultyId: user.id }).select('_id');
       const assignedStudentIds = assignedStudents.map(s => s._id);
       query = { studentId: { $in: assignedStudentIds } };
@@ -88,7 +81,6 @@ export const getMarksByStudent = async (req: Request, res: Response) => {
     let query: any = { studentId };
 
     if (user.role === "faculty") {
-      // Only allow faculty to view marks for students assigned to them
       const student = await Student.findById(studentId);
       if (!student || student.facultyId.toString() !== user.id) {
         return res.status(403).json({ message: "You are not assigned to this student" });
@@ -151,7 +143,7 @@ export const addMarks = async (req: Request, res: Response) => {
       });
     }
 
-    const normalizedExamType = examType.toLowerCase().replace('-', ''); // "Mid-term" -> "midterm"
+    const normalizedExamType = examType.toLowerCase().replace('-', ''); 
     const validExamTypes = ["assignment", "quiz", "midterm", "final", "project"];
     
     if (!validExamTypes.includes(normalizedExamType)) {
@@ -181,7 +173,6 @@ export const addMarks = async (req: Request, res: Response) => {
 
     await marks.save();
 
-    // Update student's overall marks and grade
     const { averageMarks, overallGrade } = await calculateStudentOverallMarks(studentId);
     await Student.findByIdAndUpdate(studentId, {
       marks: averageMarks,
@@ -220,7 +211,6 @@ export const updateMarks = async (req: Request, res: Response) => {
       return res.status(404).json({ message: "Marks record not found" });
     }
 
-    // Allow update if the faculty is assigned to the student
     const student = await Student.findById(marks.studentId);
     if (!student || student.facultyId.toString() !== user.id) {
       return res.status(403).json({ message: "You are not assigned to this student" });
@@ -245,7 +235,6 @@ export const updateMarks = async (req: Request, res: Response) => {
     if (maxMarks) marks.maxMarks = maxMarks;
     if (marksObtained !== undefined) marks.marksObtained = marksObtained;
     if (examDate) marks.examDate = new Date(examDate);
-    // remarks field removed
 
     if (maxMarks && marksObtained !== undefined) {
       marks.percentage = Math.round((marksObtained / maxMarks) * 100);
@@ -257,7 +246,6 @@ export const updateMarks = async (req: Request, res: Response) => {
 
     await marks.save();
 
-    // Update student's overall marks and grade
     const { averageMarks, overallGrade } = await calculateStudentOverallMarks(marks.studentId.toString());
     await Student.findByIdAndUpdate(marks.studentId, {
       marks: averageMarks,
@@ -305,7 +293,6 @@ export const deleteMarks = async (req: Request, res: Response) => {
     const studentId = marksToDelete.studentId;
     await Marks.findByIdAndDelete(id);
 
-    // Update student's overall marks and grade after deletion
     const { averageMarks, overallGrade } = await calculateStudentOverallMarks(studentId.toString());
     await Student.findByIdAndUpdate(studentId, {
       marks: averageMarks,

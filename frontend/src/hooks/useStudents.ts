@@ -50,6 +50,7 @@ export const useStudents = (options?: { enabled?: boolean }) => {
     isLoading: studentsQuery.isLoading,
     isError: studentsQuery.isError,
     error: studentsQuery.error,
+    refetch: studentsQuery.refetch,
 
     // Mutations
     addStudent: addStudentMutation.mutate,

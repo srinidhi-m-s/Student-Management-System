@@ -39,15 +39,26 @@ export const StudentEditPage = () => {
   };
 
   if (isLoading) {
-    return <div className="flex items-center justify-center min-h-screen">Loading...</div>;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 flex items-center justify-center">
+        <div className="text-lg text-slate-600 flex items-center gap-2">
+          <div className="w-6 h-6 border-2 border-blue-500 border-t-transparent rounded-full animate-spin"></div>
+          Loading student data...
+        </div>
+      </div>
+    );
   }
 
   if (!student) {
-    return <div className="flex items-center justify-center min-h-screen">Student not found</div>;
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 flex items-center justify-center">
+        <div className="text-lg text-slate-600">Student not found</div>
+      </div>
+    );
   }
 
   return (
-    <div className="p-6 flex items-center justify-center min-h-screen">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50/30 to-indigo-50/50 p-6 flex items-center justify-center">
       <StudentForm
         student={student}
         onSubmit={handleSubmit}

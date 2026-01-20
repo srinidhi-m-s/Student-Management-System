@@ -8,6 +8,14 @@ export const fetchFacultyList = async (token: string) => {
   return res.json();
 };
 
+export const getFacultyStudentCount = async (facultyId: string, token: string) => {
+  const res = await fetch(`${API_URL}/faculty/${facultyId}/student-count`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (!res.ok) throw new Error("Failed to get student count");
+  return res.json();
+};
+
 export const addFaculty = async (data: { name: string; email: string; password: string }, token: string) => {
   const res = await fetch(`${API_URL}/faculty`, {
     method: 'POST',
@@ -34,11 +42,22 @@ export const updateFaculty = async (id: string, data: { name?: string; email?: s
   return res.json();
 };
 
-export const deleteFaculty = async (id: string, token: string) => {
+export const deleteFaculty = async (id: string, token: string, reassignTo?: string) => {
   const res = await fetch(`${API_URL}/faculty/${id}`, {
     method: 'DELETE',
-    headers: { Authorization: `Bearer ${token}` },
+    headers: { 
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}` 
+    },
+    body: JSON.stringify({ reassignTo }),
   });
-  if (!res.ok) throw new Error("Failed to delete faculty");
-  return res.json();
+  const data = await res.json();
+  if (!res.ok) {
+    const error = new Error(data.message || data.error || "Failed to delete faculty") as Error & { studentCount?: number };
+    if (data.studentCount) {
+      error.studentCount = data.studentCount;
+    }
+    throw error;
+  }
+  return data;
 };

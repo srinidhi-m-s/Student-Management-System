@@ -187,7 +187,7 @@ export const StudentForm = ({
           </label>
           <select
             {...register("courseId", { required: "Course is required" })}
-            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+            className="w-full p-2 border border-gray-300 rounded-md focus:ring-2 focus:ring-blue-500 focus:border-transparent bg-gradient-to-r from-gray-100 to-gray-200"
             disabled={isLoading || isLoadingCourses}
           >
             <option value="">Select Course</option>

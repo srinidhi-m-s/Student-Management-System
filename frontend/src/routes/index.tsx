@@ -9,6 +9,7 @@ import { StudentEditPage } from "@/pages/StudentEditPage";
 import MarksPage from "@/pages/MarksPage";
 import CoursesPage from "@/pages/CoursesPage";
 import AddCoursePage from "@/pages/AddCoursePage";
+import { AttendancePage } from "@/pages/AttendancePage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import FacultyPage from '../pages/FacultyPage';
 
@@ -85,6 +86,14 @@ export const router = createBrowserRouter([
         path: '/faculty',
         element: (<ProtectedRoute allowedRoles={["admin"]}>
           <FacultyPage />
+        </ProtectedRoute>
+        ),
+      },
+      // Attendance route (faculty, admin, and student)
+      {
+        path: '/attendance',
+        element: (<ProtectedRoute allowedRoles={["admin", "faculty", "student"]}>
+          <AttendancePage />
         </ProtectedRoute>
         ),
       },

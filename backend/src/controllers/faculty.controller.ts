@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { User } from '../models/User.js';
+import { Student } from '../models/Student.js';
 import bcrypt from 'bcrypt';
 
 export const getAllFaculty = async (req: Request, res: Response) => {
@@ -8,6 +9,15 @@ export const getAllFaculty = async (req: Request, res: Response) => {
     res.json(facultyList);
   } catch (err) {
     res.status(500).json({ error: 'Failed to fetch faculty' });
+  }
+};
+
+export const getFacultyStudentCount = async (req: Request, res: Response) => {
+  try {
+    const count = await Student.countDocuments({ facultyId: req.params.id });
+    res.json({ count });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to get student count' });
   }
 };
 
@@ -58,12 +68,42 @@ export const updateFaculty = async (req: Request, res: Response) => {
 
 export const deleteFaculty = async (req: Request, res: Response) => {
   try {
-    const faculty = await User.findOneAndDelete({ _id: req.params.id, role: 'faculty' });
+    const { reassignTo } = req.body;
+    const facultyId = req.params.id;
+
+    const faculty = await User.findOne({ _id: facultyId, role: 'faculty' });
     if (!faculty) {
       res.status(404).json({ error: 'Faculty not found' });
       return;
     }
-    res.json({ message: 'Faculty deleted' });
+
+    const studentCount = await Student.countDocuments({ facultyId });
+    if (studentCount > 0) {
+      if (!reassignTo) {
+        res.status(400).json({ 
+          error: 'Reassignment required', 
+          studentCount,
+          message: `This faculty has ${studentCount} student(s). Please select another faculty to reassign them to.`
+        });
+        return;
+      }
+
+      const targetFaculty = await User.findOne({ _id: reassignTo, role: 'faculty' });
+      if (!targetFaculty) {
+        res.status(400).json({ error: 'Target faculty for reassignment not found' });
+        return;
+      }
+      await Student.updateMany(
+        { facultyId },
+        { $set: { facultyId: reassignTo } }
+      );
+    }
+    
+    await User.findByIdAndDelete(facultyId);    
+    res.json({ 
+      message: 'Faculty deleted', 
+      studentsReassigned: studentCount 
+    });
   } catch (err) {
     res.status(500).json({ error: 'Failed to delete faculty' });
   }

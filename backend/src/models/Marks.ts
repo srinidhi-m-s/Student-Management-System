@@ -9,8 +9,7 @@ export interface MarksDoc extends Document {
   percentage: number;
   grade?: string;
   examDate: Date;
-  // remarks field removed
-  createdBy: mongoose.Types.ObjectId; // Faculty who created the mark
+  createdBy: mongoose.Types.ObjectId; 
   createdAt: Date;
   updatedAt: Date;
 }
@@ -54,7 +53,6 @@ const marksSchema = new Schema<MarksDoc>({
     type: Date,
     required: true,
   },
-  // remarks field removed
   createdBy: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
@@ -64,7 +62,6 @@ const marksSchema = new Schema<MarksDoc>({
   timestamps: true,
 });
 
-// Calculate percentage and grade before saving
 marksSchema.pre('save', function(next) {
   this.percentage = (this.marksObtained / this.maxMarks) * 100;
   
@@ -83,7 +80,6 @@ marksSchema.pre('save', function(next) {
   next();
 });
 
-// Create compound index for efficient queries
 marksSchema.index({ studentId: 1, subject: 1, examType: 1 });
 marksSchema.index({ createdBy: 1 });
 

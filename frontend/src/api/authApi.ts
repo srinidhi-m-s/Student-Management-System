@@ -19,3 +19,19 @@ export const register = async (email: string, password: string, name: string, ro
   if (!res.ok) throw new Error("Registration failed");
   return res.json();
 };
+
+export const changePassword = async (oldPassword: string, newPassword: string, token: string) => {
+  const res = await fetch(`${API_URL}/auth/change-password`, {
+    method: "POST",
+    headers: { 
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`
+    },
+    body: JSON.stringify({ oldPassword, newPassword }),
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Failed to change password");
+  }
+  return res.json();
+};

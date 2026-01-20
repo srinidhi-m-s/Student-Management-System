@@ -5,6 +5,7 @@ import authRoutes from "./routes/auth.routes.js";
 import facultyRoutes from "./routes/faculty.routes.js";
 import marksRoutes from "./routes/marks.routes.js";
 import courseRoutes from "./routes/course.routes.js";
+import attendanceRoutes from "./routes/attendance.routes.js";
 
 import { connectDB } from "./config/db.js";
 import studentRouter from "./routes/student.routes.js";
@@ -24,6 +25,7 @@ app.use("/faculty", facultyRoutes);
 app.use("/auth", authRoutes);
 app.use("/marks", marksRoutes);
 app.use("/courses", courseRoutes);
+app.use("/attendance", attendanceRoutes);
 
 app.get("/", (_req, res) => {
   res.send("Student Management API running");
