@@ -21,7 +21,6 @@ export const StudentCard = ({ student }: StudentCardProps) => {
       deleteStudent(studentId);
     }
   };
-
   const getFacultyName = () => {
     if (typeof student.facultyId === "object" && student.facultyId) {
       return student.facultyId.name;
@@ -46,8 +45,7 @@ export const StudentCard = ({ student }: StudentCardProps) => {
               {typeof student.userId === "object" ? student.userId.email : "N/A"}
             </p>
           </div>
-        </div>
-        
+        </div>        
         {/* Grade Badge */}
         <div className={`px-3 py-1 rounded-full text-xs font-bold ${
           student.overallGrade === 'A' ? 'bg-green-100 text-green-700' :
@@ -58,7 +56,6 @@ export const StudentCard = ({ student }: StudentCardProps) => {
           {student.overallGrade || "N/A"}
         </div>
       </div>
-
       <div className="grid grid-cols-2 gap-4 mb-6">
         <div className="space-y-3">
           <div>

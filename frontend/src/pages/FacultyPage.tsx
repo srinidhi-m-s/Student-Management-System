@@ -177,7 +177,7 @@ const FacultyPage = () => {
             <div className="relative">
               <Input
                 type="text"
-                className="h-12 pl-12 border-slate-200/50 bg-white/50 backdrop-blur-sm focus:bg-white/80 transition-all duration-200 rounded-xl"
+                className="h-12 pl-12 border-slate-200/50 bg-slate-200 backdrop-blur-sm focus:bg-white/80 transition-all duration-200 rounded-xl"
                 placeholder="Search faculty by name or email..."
                 value={search}
                 onChange={e => setSearch(e.target.value)}

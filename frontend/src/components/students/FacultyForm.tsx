@@ -51,15 +51,15 @@ const FacultyForm = ({ faculty, onSuccess }: FacultyFormProps) => {
     <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
       <div>
         <label className="block text-sm font-medium text-gray-700">Name</label>
-        <input {...register('name', { required: true })} className="w-full px-3 py-2 border rounded-md" />
+        <input {...register('name', { required: true })} className="w-full px-3 py-2 border rounded-md bg-slate-200" />
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700">Email</label>
-        <input {...register('email', { required: true })} type="email" className="w-full px-3 py-2 border rounded-md" />
+        <input {...register('email', { required: true })} type="email" className="w-full px-3 py-2 border rounded-md bg-slate-200" />
       </div>
       <div>
         <label className="block text-sm font-medium text-gray-700">Password</label>
-        <input {...register('password', { required: !faculty })} type="password" className="w-full px-3 py-2 border rounded-md" />
+        <input {...register('password', { required: !faculty })} type="password" className="w-full px-3 py-2 border rounded-md bg-slate-200" />
       </div>
       <Button type="submit" variant="default">
         {faculty ? 'Update' : 'Add'} Faculty

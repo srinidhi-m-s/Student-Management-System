@@ -9,7 +9,7 @@ export const StudentAddPage = () => {
   const handleSubmit = (data: {
     name?: string;
     email?: string;
-    course: string;
+    courseId: string;
     facultyId?: string;
     overallGrade?: string;
     marks?: number;

@@ -221,8 +221,8 @@ export const AttendancePage = () => {
             <span className="text-2xl font-bold text-white">📅</span>
           </div>
           <div>
-            <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-800 to-green-600 bg-clip-text text-transparent">Attendance Management</h1>
-            <p className="text-slate-500 mt-2">
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-slate-800 to-green-600 bg-clip-text text-transparent p-2">Attendance Management</h1>
+            <p className="text-slate-500">
               {user?.role === "student"
                 ? "View your attendance calendar and records"
                 : user?.role === "admin"
@@ -260,7 +260,7 @@ export const AttendancePage = () => {
               className={`px-6 py-3 text-sm font-semibold transition-all duration-200 focus:outline-none flex items-center gap-2 ${
                 activeTab === "calendar"
                   ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg'
-                  : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50/50'
+                  : 'bg-slate-200 text-slate-600 hover:text-blue-600 hover:bg-blue-50/50'
               }`}
             >
               📅 Calendar
@@ -270,7 +270,7 @@ export const AttendancePage = () => {
               className={`px-6 py-3 text-sm font-semibold transition-all duration-200 focus:outline-none flex items-center gap-2 ${
                 activeTab === "overview"
                   ? 'bg-gradient-to-r from-blue-500 to-indigo-600 text-white shadow-lg'
-                  : 'text-slate-600 hover:text-blue-600 hover:bg-blue-50/50'
+                  : 'bg-slate-200 text-slate-600 hover:text-blue-600 hover:bg-blue-50/50'
               }`}
             >
               📊 Overview

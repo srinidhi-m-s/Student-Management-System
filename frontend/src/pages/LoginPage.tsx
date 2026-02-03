@@ -31,7 +31,7 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-100 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Logo/Brand Section */}
         <div className="text-center mb-8">
@@ -42,7 +42,7 @@ export const LoginPage = () => {
           <p className="text-slate-500">Sign in to continue</p>
         </div>
 
-        <Card className="backdrop-blur-sm bg-white/70 border-0 shadow-xl p-8">
+        <Card className="backdrop-blur-sm gradient-to-br from-slate-50 via-blue-50 to-indigo-100 p-8">
           {error && (
             <div className="bg-red-50/80 backdrop-blur-sm border border-red-200 text-red-700 p-4 rounded-xl mb-6 text-sm font-medium flex items-center gap-2">
               <span className="text-lg">⚠️</span>

@@ -90,7 +90,7 @@ export const AddCoursePage = () => {
           <Button 
             variant="ghost" 
             onClick={() => navigate("/courses")}
-            className="h-10 rounded-xl hover:bg-white/50 backdrop-blur-sm transition-all"
+            className="h-10 rounded-xl bg-slate-200 hover:bg-white/50 backdrop-blur-sm transition-all"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Courses
